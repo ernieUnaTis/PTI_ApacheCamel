@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+    <package>org.apache.camel.example.spring</package>
+  </camelContext>
+
+  <!-- lets configure the default ActiveMQ broker URL -->
+  <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+    <property name="connectionFactory">
+      <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+	<property name="brokerURL" value="tcp://localhost:61616?"/>
+      </bean>
+    </property>
+  </bean>
+
+
+   <!-- DataSync Principal -->
+  <bean id="DataSyncParseoProcess" class="org.apache.camel.example.spring.datasync.DataSyncParseo"/>
+
+   <!-- INTEGRACION CONSUMERHUB -->
+   <bean id="SendConsumerHubProcess" class="org.apache.camel.example.spring.consumerhub.SendConsumerHub"/>
+   <bean id="SendErrorConsumerHubProcess" class="org.apache.camel.example.spring.consumerhub.ErrorHub"/>
+   <bean id="ReSendConsumerHubProcess" class="org.apache.camel.example.spring.consumerhub.ReSendConsumerHub"/>
+   <bean id="SendConsultaSegmentoArProcess" class="org.apache.camel.example.spring.ConsultaSegmentoAr"/>
+   <bean id="SendMTConsumerHubProcess" class="org.apache.camel.example.spring.consumerhub.SendMTConsumerHub"/>
+
+  <!-- INTEGRACION NIJI -->
+  <bean id="SendNijiProcess" class="org.apache.camel.example.spring.niji.SendNiji"/>
+  <bean id="SendMTNijiProcess" class="org.apache.camel.example.spring.niji.SendMTNiji"/>
+  <bean id="ReSendNijiProcess" class="org.apache.camel.example.spring.niji.ReSendNiji"/>
+  <bean id="SendErrorNijiProcess" class="org.apache.camel.example.spring.niji.ErrorNiji"/>
+  <bean id="ReintentoNijiProcess" class="org.apache.camel.example.spring.niji.ReintentoNiji"/>
+
+    <!-- INTEGRACION HARDBUNDLE -->
+  <bean id="SendHardBundleProcess" class="org.apache.camel.example.spring.hardbundle.SendHardBundle"/>
+  <bean id="ReSendHardBundleProcess" class="org.apache.camel.example.spring.hardbundle.ReSendHardBundle"/>
+
+  <bean id="SendToBillingProcess" class="org.apache.camel.example.spring.SendToBilling"/>
+  <bean id="SendToBillingEndpointProcess" class="org.apache.camel.example.spring.SendToBillingEndpoint"/>
+
+</beans>
